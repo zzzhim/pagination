@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/jquery.min.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 100px;
+        }
+        ul, li {
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="pagination"></div>
+</body>
+</html>
+<script src="./js/pagination.js"></script>
+<script>
+    $(document).ready(function() {
+        var pagination = new Pagination({
+            container: document.getElementById('pagination'),
+            total: 1000,
+            pageSize: 10,
+            currentPage: 1,
+            isShowNextPageBtn: true,
+            isShowInput: true,
+            cb: function(params) {
+                console.log(params)
+            }
+        })
+
+        window.pagination = pagination
+    })
+</script>
