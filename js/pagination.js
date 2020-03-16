@@ -90,7 +90,7 @@
                         list.eq(i).text(text).parent().show()
                     })
                 }
-                return this.leftHide().rightHide().callback(currentPage)
+                return this.leftHide().rightHide().callback(data)
             }else {
                 list.each(function(i) {
                     list.eq(i).parent().show()
@@ -103,7 +103,7 @@
                     list.eq(2).text(currentPage).parent().addClass('active')
                     list.eq(3).text(currentPage + 1)
                     list.eq(4).text(currentPage + 2)
-                    return this.leftShow().rightShow().callback(currentPage)
+                    return this.leftShow().rightShow().callback(data)
                 }
     
                 // 只有左侧有省略号
@@ -115,7 +115,7 @@
                         }
                         list.eq(i).text(text + i)
                     })
-                    return this.leftShow().rightHide().callback(currentPage)
+                    return this.leftShow().rightHide().callback(data)
                 }
     
                 // 只有右侧有省略号
@@ -126,7 +126,7 @@
                         }
                         list.eq(i).text(i + 1)
                     })
-                    return this.rightShow().leftHide().callback(currentPage)
+                    return this.rightShow().leftHide().callback(data)
                 }
             }
         }
@@ -135,14 +135,14 @@
         Pagination.prototype.updateTotal= function(total, currentPage) {
             this.state.total = total
             this.state.totalPageSize = Math.ceil(this.state.total / this.state.pageSize)
-            this.switchPage({ currentPage: currentPage === undefined ? this.state.currentPage : currentPage })
+            this.switchPage({ currentPage: currentPage === undefined ? this.state.currentPage : currentPage, isCb: false })
         }
     
         // 更新每页条数
         Pagination.prototype.updatePageSize= function(pageSize, currentPage) {
             this.state.pageSize = pageSize
             this.state.totalPageSize = Math.ceil(this.state.total / this.state.pageSize)
-            this.switchPage({ currentPage: currentPage === undefined ? this.state.currentPage : currentPage })
+            this.switchPage({ currentPage: currentPage === undefined ? this.state.currentPage : currentPage, isCb: false })
         }
     
         // 渲染分页 HTML
@@ -237,36 +237,43 @@
                     }
                 }
             })
-    
-            // 跳转
-            jump.click(function() {
-                var value = Math.floor(input.val())
-                if(typeof value === "number" && value <= that.state.totalPageSize) {
-                    that.switchPage({ currentPage: value })
-                }
-            })
-    
-            input.keyup(function(e) {
-                if(e.keyCode === 13) {
+
+            if(this.state.isShowInput) {
+                // 跳转
+                jump.click(function() {
                     var value = Math.floor(input.val())
                     if(typeof value === "number" && value <= that.state.totalPageSize) {
                         that.switchPage({ currentPage: value })
                     }
-                }
-            })
+                })
+        
+                input.keyup(function(e) {
+                    if(e.keyCode === 13) {
+                        var value = Math.floor(input.val())
+                        if(typeof value === "number" && value <= that.state.totalPageSize) {
+                            that.switchPage({ currentPage: value })
+                        }
+                    }
+                })
+            }
     
             that.switchPage({ currentPage: this.state.currentPage })
         }
     
-        Pagination.prototype.callback = function(currentPage) {
+        Pagination.prototype.callback = function(data) {
+            this.state.currentPage = data.currentPage
+
+            if(data.isCb === false) {
+                return false
+            }
+
             if(this.state.cb && typeof this.state.cb === "function") {
                 // 回调
                 this.state.cb({
-                    currentPage: currentPage,
+                    currentPage: data.currentPage,
                     pageSize: this.state.pageSize
                 })
             }
-            this.state.currentPage = currentPage
         }
     
         return Pagination
