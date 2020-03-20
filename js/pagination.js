@@ -20,13 +20,13 @@
                 container: params.container,
                 elementIdName: params.elementIdName || 'pagination' + (new Date().getTime()).toString(),
                 total: params.total === undefined ? 100 : params.total,
-                pageSize: params.pageSizel === undefined ? 10 : params.pageSizel,
+                pageSize: params.pageSize === undefined ? 10 : params.pageSize,
                 currentPage: params.currentPage || 1,
                 cb: params.cb,
                 isShowPrevPageBtn: params.isShowPrevPageBtn === undefined ? true : params.isShowPrevPageBtn,
                 isShowNextPageBtn: params.isShowNextPageBtn === undefined ? true : params.isShowNextPageBtn,
                 isShowInput: params.isShowInput === undefined ? true: params.isShowInput,
-                totalPageSize: Math.ceil((params.total === undefined ? 100 : params.total) / (params.pageSizel === undefined ? 10 : params.pageSizel))
+                totalPageSize: Math.ceil((params.total === undefined ? 100 : params.total) / (params.pageSize === undefined ? 10 : params.pageSize))
             }
             this.renderDom()
         }
