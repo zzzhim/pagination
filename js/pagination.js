@@ -2,7 +2,7 @@
     /**
      *
      * 分页
-     * @author zzzhim
+     * @author 王亚飞
      * @date 2020-03-11
      * @param { HTMLElement } container 分页容器
      * @param { string } elementIdName 分页 Class 名称，默认为 'pagination' + (new Date().getTime()).toString()
@@ -107,7 +107,7 @@
                 }
     
                 // 只有左侧有省略号
-                if(this.state.totalPageSize > 7 && currentPage > 2 && currentPage > (this.state.totalPageSize - 4)) {
+                if(this.state.totalPageSize >= 7 && currentPage > 2 && currentPage > (this.state.totalPageSize - 4)) {
                     var text = this.state.totalPageSize - 4
                     list.each(function(i) {
                         if(text + i === currentPage) {
@@ -117,7 +117,7 @@
                     })
                     return this.leftShow().rightHide().callback(data)
                 }
-    
+
                 // 只有右侧有省略号
                 if(currentPage < 5 && currentPage <= (this.state.totalPageSize - 4) && (this.state.totalPageSize - 4) > 2) {
                     list.each(function(i) {
@@ -256,7 +256,7 @@
                     }
                 })
             }
-    
+
             that.switchPage({ currentPage: this.state.currentPage })
         }
     
